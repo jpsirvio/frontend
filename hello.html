@@ -1,31 +1,33 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div id="root"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Front End Development / React</title>
+  </head>
+  <body>
+    <!-- We will put our React component inside this div. -->
+    <div id="root"></div>
 
-        <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
-        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-        <script scr="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <!-- Load React & Babel -->
+    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
 
-        <script type="text/babel">
-            function HelloComponent() {
+    <!-- Load our React component. -->
+    <script type="text/babel">
+
+            function HelloComponent(props) {
                 return(
                     <div>
-                    <h1>Hello</h1>
-                    <h2>World</h2>
+                        <h1>Hello World</h1>
+                        <p>made by {props.firstname} {props.lastname}</p>
                     </div>
                 )
-            }
+            };
 
-            reactDOM.render(<HelloComponent/>, document.getElementById("root"));
-        </script>
+        ReactDOM.render(<HelloComponent firstname="Jukka-Pekka" lastname="Sirviö" />, document.getElementById('root'));
 
-
-
-
-    </body>
+    </script>
+  </body>
 </html>
