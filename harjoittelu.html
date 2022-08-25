@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Hello World</title>
+    </head>
+    <body>
+        <div id='root1'></div>
+        <div id='root2'></div>
+
+        <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+        <script type="text/babel">
+            
+            function HelloComponent(props) {
+                return(
+                    <div>
+                        <h1>Hello World</h1>
+                        <p>made by {props.firstname} {props.lastname}</p>
+                    </div>
+                )
+            };
+
+            function Counter() {
+                const [counter, setCounter] = React.useState(0);
+
+                return(
+                    <div>
+                        <p>Clicked {counter} times</p>
+                        <button onClick={() => setCounter(counter+1)}>+</button>
+                    </div>
+                )
+            }
+
+            ReactDOM.render(<HelloComponent firstname="Jukka-Pekka" lastname="Sirviö" />, document.getElementById('root1'));
+            ReactDOM.render(<div><Counter /><Counter /><Counter /></div>, document.getElementById('root2'));
+        </script>
+    </body>
+</html>
