@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Syötteen lukeminen</title>
+    </head>
+    <body>
+        
+        <!-- Root container for react components -->
+        <div id="root"></div>
+        
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+        <script type="text/babel">
+        
+            function HelloName() {
+
+                const [name, setName] = React.useState({firstName: '', lastName: ''});
+            
+                const inputChanged = (event) => {    
+                    setName({ ...name, [event.target.name]: event.target.value});
+                };
+                
+                return (
+                    <div>
+                        <div>Say Hello to yourself {name.firstName} {name.lastName} by clicking Send</div>
+                        <p />
+                        First Name: <input type="text" name="firstName" value={name.firstName} onChange={inputChanged} /> &nbsp;&nbsp;
+                        Last Name: <input type="text" name="lastName" value={name.lastName} onChange={inputChanged} /> &nbsp;&nbsp;
+                        <button onClick={ (event) => alert("Hello " + [name.firstName] + " " + [name.lastName] + "!") }>Send</button>
+                    </div>
+                );
+                
+            };
+            
+            ReactDOM.render(<HelloName />, document.getElementById("root"));
+        
+        </script>
+    </body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Syötteen lukeminen</title>
+    </head>
+    <body>
+        
+        <!-- Root container for react components -->
+        <div id="root"></div>
+
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+        <script type="text/babel">
+        
+            function CheckAge() {
+
+                const [name, setName] = React.useState('');
+                const [age, setAge] = React.useState('');
+
+                const runCheck = (event) => {
+
+                    // prevent default submit behaviour
+                    event.preventDefault();
+                    
+                    // Check age and print a text based on the value of age
+                    // "too young" if under 18 
+                    // "hello" otherwise, including if age is not a number
+                    if(parseInt([age])<18) {
+                        ReactDOM.render("You are too young ", document.getElementById("check"));
+                    } 
+                    else ReactDOM.render("Hello " + [name], document.getElementById("check"));
+                    
+                };
+                
+                return (
+                    <form onSubmit={runCheck}>
+                        <div id="check"></div> 
+                        <div>Nimi: <input type="text" onChange={e => setName(e.target.value)} value={name} /></div>
+                        <div>Ikä: <input type="text" onChange={e => setAge(e.target.value)} value={age} /></div>
+                        <div><input type="submit" value="Submit" /></div>
+                    </form>
+                );
+
+            };
+            
+            ReactDOM.render(<CheckAge />, document.getElementById("root"));
+
+        </script>
+    </body>
+</html>
