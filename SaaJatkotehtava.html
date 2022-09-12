@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Sää fetch jatkotehtävä</title>
+    </head>
+    <body>
+        
+        <!-- Root container for react components -->
+        <div id="root"></div>
+        
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+        <script type="text/babel">
+        
+            const RestOpenWeathermap = () => {
+                const [loc, setLoc] = React.useState('');
+                const [temp, setTemp] = React.useState('');
+                const [weather, setWeather] = React.useState('');
+                const [icon, setIcon] = React.useState('');
+                // kuvakkeen url:
+                // http://openweathermap.org/img/wn/${icon}.png
+
+                React.useEffect(() => {
+                    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${loc}&units=metric&APPID=0759f1880523544da4a7514257150d77`)
+                    .then(response => response.json())
+                    .then((responseData) => {
+                        
+                        // konsolitarkistukset debuggausta varten
+                        // console.log(responseData);
+                        // console.log(responseData.main.temp);
+                        // console.log(responseData.weather[0].main);
+                        // console.log(responseData.weather[0].icon);
+                        
+                        //poimitaan halutut kentät jsonista
+                        setTemp(responseData.main.temp);
+                        setWeather(responseData.weather[0].main);
+                        setIcon(responseData.weather[0].icon);
+                    });
+                })
+
+                const inputChanged = (event) => {    
+                    // prevent default submit behaviour
+                    event.preventDefault();
+                    // renderöidään syötetyn paikkakunnan tiedot
+                    ReactDOM.render(
+                        <div>
+                            <h2>{loc} weather</h2>
+                            <p>Temperature: {temp} Celsius</p>
+                            <p>Weather: {weather}</p>
+                            <p><img src={`http://openweathermap.org/img/wn/${icon}.png`} /></p>
+                        </div>, 
+                        document.getElementById("onclick"));
+                };
+
+                return (
+                    <div>
+                        <form onSubmit={inputChanged}>
+                            <input type="text" name="loc" value={loc} onChange={e => setLoc(e.target.value)} />
+                            <input type="submit" value="Get weather" />
+                        </form>
+                        <div id="onclick"></div>
+                    </div>
+                );
+            };
+
+            ReactDOM.render(<RestOpenWeathermap />, document.getElementById("root"));
+
+        </script>
+    </body>
+</html>
