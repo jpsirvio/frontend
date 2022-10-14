@@ -16,60 +16,45 @@
         <script type="text/babel">
         
             const RestOpenWeathermap = () => {
-                const [loc, setLoc] = React.useState('');
+                const [loc, setLoc] = React.useState(null);
                 const [temp, setTemp] = React.useState('');
                 const [weather, setWeather] = React.useState('');
                 const [icon, setIcon] = React.useState('');
-                const [refreshData, setRefreshData] = React.useState();
                 // kuvakkeen url:
                 // http://openweathermap.org/img/wn/${icon}.png
 
 
                 // noudetaan tiedot apista, jos refreshData on muuttunut
-                React.useEffect(() => {
+                function fetchWeather(event) {
+                    // prevent default submit behaviour
+                    event.preventDefault();
+
+                    // haetaan tiedot
                     fetch(`http://api.openweathermap.org/data/2.5/weather?q=${loc}&units=metric&APPID=0759f1880523544da4a7514257150d77`)
                     .then(response => response.json())
                     .then((responseData) => {
-                        
-                        // konsolitarkistukset debuggausta varten
-                        // console.log(responseData);
-                        // console.log(responseData.main.temp);
-                         console.log(responseData.weather[0].main);
-                        // console.log(responseData.weather[0].icon);
-                        console.log(`useEffect check: ${refreshData}`);
                         
                         //poimitaan halutut kentät jsonista
                         setTemp(responseData.main.temp);
                         setWeather(responseData.weather[0].main);
                         setIcon(responseData.weather[0].icon);
                     });
-                },[refreshData])
+                }
 
-                const inputChanged = (event) => {    
-                    // prevent default submit behaviour
-                    event.preventDefault();
-
-                    setRefreshData(!refreshData);
-
-                    // renderöidään syötetyn paikkakunnan tiedot
-                    ReactDOM.render(
+                return (
+                    <div>
+                        <form onSubmit={fetchWeather}>
+                            <input type="text" name="loc" value={loc} onChange={e => setLoc(e.target.value)} />
+                            <input type="submit" value="Get weather" />
+                        </form>
+                        {loc &&
                         <div>
                             <h2>{loc} weather</h2>
                             <p>Temperature: {temp} Celsius</p>
                             <p>Weather: {weather}</p>
                             <p><img src={`http://openweathermap.org/img/wn/${icon}.png`} /></p>
-                        </div>, 
-                        document.getElementById("onclick"));
-                        console.log(`inputChanged check: ${refreshData}`);
-                };
-
-                return (
-                    <div>
-                        <form onSubmit={inputChanged}>
-                            <input type="text" name="loc" value={loc} onChange={e => setLoc(e.target.value)} />
-                            <input type="submit" value="Get weather" />
-                        </form>
-                        <div id="onclick"></div>
+                        </div>
+                        }
                     </div>
                 );
             };

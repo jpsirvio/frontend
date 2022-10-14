@@ -2,13 +2,13 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>Trivia fetch</title>
+        <title>Trivia fetch w/ Show answer</title>
     </head>
     <body>
         
         <!-- Root container for react components -->
         <div id="root"></div>
-
+        
         <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
         <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
@@ -20,7 +20,7 @@
                 const [correct_answer, setCorrect_answer] = React.useState('');
                 const [incorrect_answers, setIncorrect_answers] = React.useState('');
                 const [refreshData, setRefreshData] = React.useState(false);
-              
+
                 React.useEffect(() => {
                     fetch('https://opentdb.com/api.php?amount=1')
                     .then(response => response.json())
@@ -29,6 +29,7 @@
                         setQuestion(responseData.results[0].question);
                         setCorrect_answer(responseData.results[0].correct_answer);
                         setIncorrect_answers(responseData.results[0].incorrect_answers);
+                        
                     });
                 }, [refreshData])
 
@@ -37,12 +38,16 @@
                     // joten tämä ratkaisu on epäelegantti quick and dirty väliaikaisratkaisu niiden osalta
                     // miksi html-entiteetit ei käänny???
                     <div>
-                        <p>{question}</p>
-                        <p>1: {correct_answer}</p>
-                        <p>2: {incorrect_answers[0]} </p>
-                        <p>3: {incorrect_answers[1]}</p> 
-                        <p>4: {incorrect_answers[2]}</p>
-                        <button onClick={() => setRefreshData(!refreshData)}>New Question</button>
+                        <div>{question}</div>
+                        <div>1: {correct_answer}</div>
+                        <div>2: {incorrect_answers[0]}</div>
+                        <div>3: {incorrect_answers[1]}</div> 
+                        <div>4: {incorrect_answers[2]}</div>
+                        <div>                        
+                            <button onClick={() => setRefreshData(!refreshData)}>New Question</button>
+                            <button onClick={ (event) => ReactDOM.render([correct_answer], document.getElementById("answer"))}>Show Answer</button>
+                        </div>
+                        <div id="answer"></div>
                     </div>
                 );
             };

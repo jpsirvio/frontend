@@ -19,10 +19,7 @@
                 const [question, setQuestion] = React.useState('');
                 const [correct_answer, setCorrect_answer] = React.useState('');
                 const [incorrect_answers, setIncorrect_answers] = React.useState('');
-                
-                const RefreshPage = () => {
-                    window.location.reload(false);
-                }
+                const [refreshData, setRefreshData] = React.useState(false);
 
                 React.useEffect(() => {
                     fetch('https://opentdb.com/api.php?amount=1')
@@ -33,7 +30,7 @@
                         setCorrect_answer(responseData.results[0].correct_answer);
                         setIncorrect_answers(responseData.results[0].incorrect_answers);
                     });
-                }, [])
+                }, [refreshData])
 
                 return (
                     // vastauksia ei pyydetty tehtävänannossa, mutta osa kysymyksistä edelyttää niitä, 
@@ -45,8 +42,8 @@
                         <div>2: {incorrect_answers[0]}</div>
                         <div>3: {incorrect_answers[1]}</div> 
                         <div>4: {incorrect_answers[2]}</div>
-                        <div>
-                            <button onClick={RefreshPage}>New Question</button>
+                        <div>                        
+                            <button onClick={() => setRefreshData(!refreshData)}>New Question</button>
                             <button onClick={ (event) => ReactDOM.render([correct_answer], document.getElementById("answer"))}>Show Answer</button>
                         </div>
                         <div id="answer"></div>

@@ -19,6 +19,7 @@
 
                 const [name, setName] = React.useState('');
                 const [age, setAge] = React.useState('');
+                const [message, setMessage] = React.useState('');
 
                 const runCheck = (event) => {
 
@@ -28,16 +29,16 @@
                     // Check age and print a text based on the value of age
                     // "too young" if under 18 
                     // "hello" otherwise, including if age is not a number
-                    if(parseInt([age])<18) {
-                        ReactDOM.render("You are too young ", document.getElementById("check"));
-                    } 
-                    else ReactDOM.render("Hello " + [name], document.getElementById("check"));
-                    
+                    if( [age] < 18 ) {
+                       setMessage("Too young");
+                    } else {
+                        setMessage("Hello " + [name]);
+                    }                    
                 };
                 
                 return (
                     <form onSubmit={runCheck}>
-                        <div id="check"></div> 
+                        <div>{message}</div>
                         <div>Nimi: <input type="text" onChange={e => setName(e.target.value)} value={name} /></div>
                         <div>Ikä: <input type="text" onChange={e => setAge(e.target.value)} value={age} /></div>
                         <div><input type="submit" value="Submit" /></div>
